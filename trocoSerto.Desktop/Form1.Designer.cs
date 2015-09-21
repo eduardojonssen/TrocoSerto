@@ -95,6 +95,7 @@
 			// 
 			// Form1
 			// 
+			this.AcceptButton = this.UxBtnCalculateChange;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(536, 323);

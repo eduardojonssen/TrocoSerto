@@ -52,9 +52,14 @@ namespace trocoSerto.Desktop {
 				CalculateChangeResponse changeResponse = trocoSertoManager.GetChange(changeRequest);
 
 				if (changeResponse.Success == true && changeResponse.ChangeAmountInCents != null) {
-					foreach (KeyValuePair<int, long> item in changeResponse.CoinsCountCollection) {
-						this.UxTxtChangeAmountInCents.Text += string.Format("Coin:{0} Count:{1} \r\n",
-																			item.Key.ToString(), item.Value.ToString());
+
+
+					foreach (MonetaryData item in changeResponse.MonetaryDataCollection) {
+						foreach (KeyValuePair<int,long> changeValue in item.MonetaryValues) {
+							this.UxTxtChangeAmountInCents.Text += string.Format("{0}:{1} Count:{2} \r\n",
+																			item.MonetaryName, changeValue.Key.ToString(), changeValue.Value.ToString());
+						}
+						
 					}
 					this.UxTxtChangeAmountInCents.Text += "Change amount:" + changeResponse.ChangeAmountInCents.ToString();
 				}

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrocoSerto.Core.DataContract;
 using TrocoSerto.Core.Enum;
+using TrocoSerto.Core.Processor;
 
 namespace TrocoSerto.Core {
 	public class TrocoSertoManager {
@@ -29,7 +30,8 @@ namespace TrocoSerto.Core {
 				}
 
 				response.ChangeAmountInCents = request.PaidAmount - request.ProductAmount;
-				response.CoinsCountCollection = CalculateCoins((long)response.ChangeAmountInCents);
+				
+				response.MonetaryDataCollection = CalculateMonetaryChange((long)response.ChangeAmountInCents);
 				response.Success = true;
 
 				//TODO: Log
@@ -42,18 +44,34 @@ namespace TrocoSerto.Core {
 			}
 			return response;
 		}
-		private IDictionary<int, long> CalculateCoins(long changeAmount) {
-			IDictionary<int, long> response = new Dictionary<int, long>();
-			int[] typesCoins = new int[6] { 100, 50, 25, 10, 5, 1 };
-			long quantityCoins;
-			for (int i = 0; i < typesCoins.Length; i++) {
-				quantityCoins = changeAmount / typesCoins[i];
-				if (quantityCoins != 0) {
-					changeAmount = changeAmount % typesCoins[i];
-					response.Add(typesCoins[i], quantityCoins);
-				}
-				quantityCoins = 0;
-			}
+		private List<MonetaryData> CalculateMonetaryChange(long changeAmount) {
+			List<MonetaryData> response = new List<MonetaryData>();
+			
+			BillProcessor billProcessor = new BillProcessor();
+
+			MonetaryData billMonetaryData = new MonetaryData();
+			billMonetaryData.MonetaryName = billProcessor.GetName();
+
+			// Calcula o troco em cedulas
+			billMonetaryData.MonetaryValues = billProcessor.CalculateChange(changeAmount);
+
+			billMonetaryData.TotalAmount = billMonetaryData.MonetaryValues.Sum(change => change.Key * change.Value);
+
+			response.Add(billMonetaryData);
+
+			// Verifica o restante do troco
+			long remainingAmount = changeAmount - billMonetaryData.TotalAmount;
+
+			CoinProcessor coinProcessor = new CoinProcessor();
+
+			MonetaryData coinMonetaryData = new MonetaryData();
+
+			coinMonetaryData.MonetaryValues = coinProcessor.CalculateChange(remainingAmount);
+			coinMonetaryData.MonetaryName = coinProcessor.GetName();
+			coinMonetaryData.TotalAmount = coinMonetaryData.MonetaryValues.Sum(change => change.Key * change.Value);
+
+			response.Add(coinMonetaryData);
+
 			return response;
 		}
 		
