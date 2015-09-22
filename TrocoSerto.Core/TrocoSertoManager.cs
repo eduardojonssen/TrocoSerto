@@ -11,6 +11,10 @@ namespace TrocoSerto.Core {
 	public class TrocoSertoManager {
 
 		#region Constructor
+
+		/// <summary>
+		/// Construtor básico
+		/// </summary>
 		public TrocoSertoManager() { }
 
 		#endregion
@@ -20,7 +24,7 @@ namespace TrocoSerto.Core {
 		public CalculateChangeResponse GetChange(CalculateChangeRequest request) {
 
 			CalculateChangeResponse response = new CalculateChangeResponse();
-			
+
 			try {
 				// TODO: Log
 
@@ -30,9 +34,16 @@ namespace TrocoSerto.Core {
 				}
 
 				response.ChangeAmountInCents = request.PaidAmount - request.ProductAmount;
-				
+
 				response.MonetaryDataCollection = CalculateMonetaryChange((long)response.ChangeAmountInCents);
-				response.Success = true;
+
+				if (response.MonetaryDataCollection == null) {
+					response.OperationReportList.Add(new OperationReport() {
+						Message = "Não foi possível retornar o troco." });
+					return response;
+				}
+
+				response.Success = true;			
 
 				//TODO: Log
 			}
@@ -42,39 +53,37 @@ namespace TrocoSerto.Core {
 				operationReport.Message = ("Não foi possível processar a sua requisição. Por favor, tente novamente mais tarde.");
 				response.OperationReportList.Add(operationReport);
 			}
+
 			return response;
 		}
+
 		private List<MonetaryData> CalculateMonetaryChange(long changeAmount) {
 			List<MonetaryData> response = new List<MonetaryData>();
-			
-			BillProcessor billProcessor = new BillProcessor();
 
-			MonetaryData billMonetaryData = new MonetaryData();
-			billMonetaryData.MonetaryName = billProcessor.GetName();
+			long remainingAmount = changeAmount;
 
-			// Calcula o troco em cedulas
-			billMonetaryData.MonetaryValues = billProcessor.CalculateChange(changeAmount);
+			while (remainingAmount > 0) {
+				AbstractProcessor processor = ProcessorFactory.Create(remainingAmount);
 
-			billMonetaryData.TotalAmount = billMonetaryData.MonetaryValues.Sum(change => change.Key * change.Value);
+				if (processor == null) {
+					return null;
+				}
 
-			response.Add(billMonetaryData);
+				MonetaryData monetaryData = new MonetaryData();
+				monetaryData.MonetaryName = processor.GetName();
 
-			// Verifica o restante do troco
-			long remainingAmount = changeAmount - billMonetaryData.TotalAmount;
+				// Calcula o troco em cedulas
+				monetaryData.MonetaryValues = processor.CalculateChange(remainingAmount);
 
-			CoinProcessor coinProcessor = new CoinProcessor();
+				monetaryData.TotalAmount = monetaryData.MonetaryValues.Sum(change => change.Key * change.Value);
 
-			MonetaryData coinMonetaryData = new MonetaryData();
+				response.Add(monetaryData);
 
-			coinMonetaryData.MonetaryValues = coinProcessor.CalculateChange(remainingAmount);
-			coinMonetaryData.MonetaryName = coinProcessor.GetName();
-			coinMonetaryData.TotalAmount = coinMonetaryData.MonetaryValues.Sum(change => change.Key * change.Value);
-
-			response.Add(coinMonetaryData);
+				remainingAmount -= monetaryData.TotalAmount;
+			}
 
 			return response;
 		}
-		
 
 		#endregion
 	}

@@ -11,5 +11,6 @@ namespace TrocoSerto.Core.DataContract {
 		public IDictionary<int, long> MonetaryValues { get; set; }
 
 		public long TotalAmount { get; set; }
+
 	}
 }
