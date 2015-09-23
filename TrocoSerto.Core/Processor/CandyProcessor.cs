@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TrocoSerto.Core.Processor {
-	public class SilverProcessor : AbstractProcessor {
-
+	public class CandyProcessor : AbstractProcessor {
 		internal override string GetName() {
-			return "Silver";
+			return "Candies";
 		}
 
 		public override IEnumerable<int> GetValues() {
-			return new List<int>() { 100000, 50000 };
+			return new List<int>() { 1, 3 };
 		}
 	}
 }

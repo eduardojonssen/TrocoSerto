@@ -8,7 +8,7 @@ namespace TrocoSerto.Core.DataContract {
 	public class MonetaryData {
 		public string MonetaryName { get; set; }
 
-		public IDictionary<int, long> MonetaryValues { get; set; }
+		public Dictionary<int, long> MonetaryValues { get; set; }
 
 		public long TotalAmount { get; set; }
 

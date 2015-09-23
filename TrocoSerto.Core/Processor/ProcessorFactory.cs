@@ -11,7 +11,8 @@ namespace TrocoSerto.Core.Processor {
 			AbstractProcessor[] processorList = new AbstractProcessor[]{
 				new BillProcessor(),
 				new CoinProcessor(),
-				new SilverProcessor()
+				new SilverProcessor(),
+				new CandyProcessor()
 
 				//Adicionar futuros processadores acima desta linha.
 			};
@@ -24,5 +25,6 @@ namespace TrocoSerto.Core.Processor {
 			}
 			return null;
 		}
+
 	}
 }

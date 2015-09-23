@@ -22,7 +22,7 @@ namespace TrocoSerto.Core.DataContract {
 
 		private List<OperationReport> _operationReportList { get; set; }
 
-		public List<OperationReport> OperationReportList { get { return this._operationReportList.ToList(); } }
+		internal List<OperationReport> OperationReportList { get { return this._operationReportList.ToList(); } }
 
 		protected abstract void Validate();
 
