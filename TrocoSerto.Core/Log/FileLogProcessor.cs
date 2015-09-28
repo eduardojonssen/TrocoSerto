@@ -1,19 +1,23 @@
 ﻿using Dlp.Framework;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrocoSerto.Core.Helper {
-	public static class LogHelper {
-		public static void CreateLog(LogData logData) {
-			// TODO: Log 
+namespace TrocoSerto.Core.Log {
+	internal class FileLogProcessor: AbstractLog {
 
-			string fileName = "TrocoSertoLog.txt";
-			string filePath = @"C:\Logs";
+		public FileLogProcessor() { }
 
+		
+
+		internal override void Save(LogData logData) {
+
+			string fileName = DateTime.Now.ToString("yyyy-MM-dd") + ".log";
+			string filePath = ConfigurationManager.AppSettings["logPath"];
 
 			if (Directory.Exists(filePath) == false) {
 				Directory.CreateDirectory(filePath);
@@ -32,5 +36,7 @@ namespace TrocoSerto.Core.Helper {
 
 			logFile.Close();
 		}
+
+
 	}
 }

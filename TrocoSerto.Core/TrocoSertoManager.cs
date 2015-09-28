@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrocoSerto.Core.DataContract;
 using TrocoSerto.Core.Enum;
-using TrocoSerto.Core.Helper;
+using TrocoSerto.Core.Log;
 using TrocoSerto.Core.Processor;
 
 namespace TrocoSerto.Core {
@@ -29,12 +29,13 @@ namespace TrocoSerto.Core {
 			CalculateChangeResponse response = new CalculateChangeResponse();
 
 			try {
-				LogHelper.CreateLog(new LogData() {
+				LogManager.WriteLog(new LogData() {
 					Category = "Request",
 					ObjectToLog = request,
 					LogType = "Informacao",
 					MethodName = "GetChange"
 				});
+
 
 				if (request.IsValid == false) {
 					response.OperationReportList = request.OperationReportList;
@@ -59,15 +60,16 @@ namespace TrocoSerto.Core {
 				operationReport.Message = ("Não foi possível processar a sua requisição. Por favor, tente novamente mais tarde.");
 				response.OperationReportList.Add(operationReport);
 
-				LogHelper.CreateLog(new LogData() {
+				LogManager.WriteLog(new LogData() {
 					Category = "EXCEPTION",
 					ObjectToLog = ex.ToString(),
 					LogType = "ERROR",
 					MethodName = "GetChange"
 				});
+
 			}
 			finally {
-				LogHelper.CreateLog(new LogData() {
+				LogManager.WriteLog(new LogData() {
 					Category = "Response",
 					ObjectToLog = response,
 					LogType = "Informacao",

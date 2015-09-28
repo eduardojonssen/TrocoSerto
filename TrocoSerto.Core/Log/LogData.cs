@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrocoSerto.Core.Helper {
+namespace TrocoSerto.Core.Log {
 	public class LogData {
 		public string LogType { get; set; }
 
