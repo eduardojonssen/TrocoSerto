@@ -1,4 +1,5 @@
 ﻿using Dlp.Framework;
+using Dlp.Framework.Container;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,7 @@ using TrocoSerto.Core.DataContract;
 using TrocoSerto.Core.Enum;
 using TrocoSerto.Core.Log;
 using TrocoSerto.Core.Processor;
+using TrocoSerto.Core.Utility;
 
 namespace TrocoSerto.Core {
 	public class TrocoSertoManager {
@@ -18,7 +20,18 @@ namespace TrocoSerto.Core {
 		/// <summary>
 		/// Construtor básico
 		/// </summary>
-		public TrocoSertoManager() { }
+		public TrocoSertoManager() {
+
+			IocFactory.Register(
+					Component.For<IConfigurationUtility>()
+					.ImplementedBy<ConfigurationUtility>(),
+
+					Component.For<ILog>()
+					.ImplementedBy<FileLogProcessor>("File")
+					.ImplementedBy<SystemLogProcessor>("System")
+					.Interceptor<LogInterceptor>()
+				);
+		}
 
 		#endregion
 

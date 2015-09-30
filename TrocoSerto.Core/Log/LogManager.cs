@@ -13,8 +13,8 @@ namespace TrocoSerto.Core.Log {
 
 		public static void WriteLog(LogData logData){
 			string logType = ConfigurationManager.AppSettings["logType"];
-			AbstractLog abstractlog = LogFactory.Create(logType);
-			abstractlog.Save(logData);
+			ILog log = LogFactory.Create(logType);
+			log.Save(logData);
 		}
 
 	}

@@ -1,23 +1,17 @@
-﻿using System;
+﻿using Dlp.Framework.Container;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrocoSerto.Core.Utility;
 
 namespace TrocoSerto.Core.Log {
 	public static class LogFactory {
 
-		internal static AbstractLog Create(string logType) {
+		internal static ILog Create(string logType) {
 
-			switch (logType) {
-				case "System":
-					return new SystemLogProcessor();
-				case "File":
-					return new FileLogProcessor();
-				default:
-					return null;
-
-			}
+			return IocFactory.ResolveByName<ILog>(logType);
 		}
 	}
 }

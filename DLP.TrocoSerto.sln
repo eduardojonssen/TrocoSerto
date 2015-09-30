@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrocoSerto.Desktop", "troco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrocoSerto.Core", "TrocoSerto.Core\TrocoSerto.Core.csproj", "{CE80673F-38AE-4080-91AA-199027033191}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dlp.TrocoSerto.Test", "Dlp.TrocoSerto.Test\Dlp.TrocoSerto.Test.csproj", "{FF7E0522-D762-4B81-9704-AB341A67A55B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CE80673F-38AE-4080-91AA-199027033191}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE80673F-38AE-4080-91AA-199027033191}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE80673F-38AE-4080-91AA-199027033191}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF7E0522-D762-4B81-9704-AB341A67A55B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF7E0522-D762-4B81-9704-AB341A67A55B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF7E0522-D762-4B81-9704-AB341A67A55B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF7E0522-D762-4B81-9704-AB341A67A55B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

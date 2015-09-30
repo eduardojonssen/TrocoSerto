@@ -5,13 +5,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrocoSerto.Core.Utility;
 
 namespace TrocoSerto.Core.Log {
-	internal sealed class SystemLogProcessor : AbstractLog {
+	internal sealed class SystemLogProcessor : ILog {
 
 		public SystemLogProcessor() { }
 
-		internal override void Save(LogData logData) {
+		public void Save(LogData logData) {
 
 			EventLog log = new EventLog();
 

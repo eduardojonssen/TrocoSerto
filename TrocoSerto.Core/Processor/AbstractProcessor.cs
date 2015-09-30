@@ -20,7 +20,7 @@ namespace TrocoSerto.Core.Processor {
 
 			foreach (int value in types) {
 				quantity = changeAmount / value;
-				if (quantity != 0) {
+				if (quantity > 0) {
 					changeAmount = changeAmount % value;
 					response.Add(value, quantity);
 				}
